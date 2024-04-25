@@ -1,5 +1,7 @@
 package com.spring.marombaapp.login.security;
 
+import com.spring.marombaapp.login.security.jwt.AuthEntryPointJwt;
+import com.spring.marombaapp.login.security.jwt.AuthTokenFilter;
 import com.spring.marombaapp.login.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,13 +23,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class ConfigSegurancaWeb {
 
     @Autowired
-    UserDetailsImpl userDetailsService;
+    UserDetailsService userDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
-    public AuthTokenFilter aunthenticationJwtTokenFilter(){
+    public AuthTokenFilter authenticationJwtTokenFilter(){
         return new AuthTokenFilter();
     }
 
