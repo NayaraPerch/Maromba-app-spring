@@ -2,16 +2,23 @@ package com.spring.marombaapp.login.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.marombaapp.login.model.Usuario;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class UserDetailServiceImpl implements UserDetails {
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
+public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -25,21 +32,12 @@ public class UserDetailServiceImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailServiceImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
-    }
-
-    public static UserDetailServiceImpl build(Usuario user) {
+    public static UserDetailsImpl build(Usuario user) {
         List<GrantedAuthority> authorities = user.getPerfis().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getNome().name()))
                 .collect(Collectors.toList());
 
-        return new UserDetailServiceImpl(
+        return new UserDetailsImpl(
                 user.getId(),
                 user.getNome_usuario(),
                 user.getEmail(),
@@ -50,14 +48,6 @@ public class UserDetailServiceImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     @Override
@@ -88,15 +78,5 @@ public class UserDetailServiceImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        UserDetailServiceImpl user = (UserDetailServiceImpl) o;
-        return Objects.equals(id, user.id);
     }
 }
