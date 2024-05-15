@@ -41,5 +41,9 @@ public class Usuario {
                 inverseJoinColumns = @JoinColumn(name = "perfil_id"))
    private Set<Perfil> perfis = new HashSet<Perfil>();
 
-
+    public Usuario(String nome_usuario, String email, String senha) {
+        this.nome_usuario = nome_usuario;
+        this.email = email;
+        this.senha = senha;
+    }
 }
