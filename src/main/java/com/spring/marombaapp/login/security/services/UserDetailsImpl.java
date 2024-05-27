@@ -1,7 +1,7 @@
 package com.spring.marombaapp.login.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.spring.marombaapp.login.model.Usuario;
+import com.spring.marombaapp.login.model.User;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,16 +32,16 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl build(Usuario user) {
-        List<GrantedAuthority> authorities = user.getPerfis().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getNome().name()))
+    public static UserDetailsImpl build(User user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
         return new UserDetailsImpl(
                 user.getId(),
-                user.getNome_usuario(),
+                user.getUsername(),
                 user.getEmail(),
-                user.getSenha(),
+                user.getPassword(),
                 authorities);
     }
 

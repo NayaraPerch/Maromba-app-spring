@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="perfil")
+@Table(name="role")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Perfil {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +20,6 @@ public class Perfil {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private PerfilEnum nome;
+    private RoleEnum name;
 
 }

@@ -18,32 +18,36 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "usuario",uniqueConstraints = {
-            @UniqueConstraint(columnNames = "nome_usuario"), @UniqueConstraint(columnNames = "email")
+@Table(name = "user",uniqueConstraints = {
+            @UniqueConstraint(columnNames = "username"),
+            @UniqueConstraint(columnNames = "email")
         })
-public class Usuario {
-
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     @Size(max = 20)
-    private String nome_usuario;
+    private String username;
+
     @NotBlank
     @Size(max = 50)
     private String email;
+
     @NotBlank
     @Size(max = 120)
-   private String senha;
-    @ManyToMany
-    @JoinTable(name = "usuario_perfil",
-                joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "perfil_id"))
-   private Set<Perfil> perfis = new HashSet<Perfil>();
+   private String password;
 
-    public Usuario(String nome_usuario, String email, String senha) {
-        this.nome_usuario = nome_usuario;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+   private Set<Role> roles = new HashSet<Role>();
+
+    public User(String username, String email, String password) {
+        this.username = username;
         this.email = email;
-        this.senha = senha;
+        this.password = password;
     }
 }
